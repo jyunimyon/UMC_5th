@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -16,12 +17,15 @@ import umc.jyuny_springprj.apiPayload.code.status.ErrorStatus;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolationException;
+import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Slf4j
 @RestControllerAdvice(annotations={RestController.class})
 // RestControllerAdvice는 @RestController가 붙은 대상에서 Exception이 발생하는 것을 감지하는 역할
 public class ExceptionAdvice extends ResponseEntityExceptionHandler {
+    @org.springframework.web.bind.annotation.ExceptionHandler
     public ResponseEntity<Object> validation(ConstraintViolationException e, WebRequest request){
         String errorMessage=e.getConstraintViolations().stream()
                 .map(constraintViolation -> constraintViolation.getMessage())
@@ -29,6 +33,23 @@ public class ExceptionAdvice extends ResponseEntityExceptionHandler {
                 .orElseThrow(()->new RuntimeException("ConstraintViolationException 추출 도중 에러 발생"));
         return handleExceptionInternalConstraint(e, ErrorStatus.valueOf(errorMessage), HttpHeaders.EMPTY,request);
     }
+
+    @Override
+    public ResponseEntity<Object> handleMethodArgumentNotValid(
+            MethodArgumentNotValidException e, HttpHeaders headers, HttpStatus status, WebRequest request) {
+
+        Map<String, String> errors = new LinkedHashMap<>();
+
+        e.getBindingResult().getFieldErrors().stream()
+                .forEach(fieldError -> {
+                    String fieldName = fieldError.getField();
+                    String errorMessage = Optional.ofNullable(fieldError.getDefaultMessage()).orElse("");
+                    errors.merge(fieldName, errorMessage, (existingErrorMessage, newErrorMessage) -> existingErrorMessage + ", " + newErrorMessage);
+                });
+
+        return handleExceptionInternalArgs(e,HttpHeaders.EMPTY,ErrorStatus.valueOf("_BAD_REQUEST"),request,errors);
+    }
+    // ⬆️ 8주차에서 놓친 메소드 추가
     @org.springframework.web.bind.annotation.ExceptionHandler
     public ResponseEntity<Object> exception(Exception e, WebRequest request) {
         e.printStackTrace();
