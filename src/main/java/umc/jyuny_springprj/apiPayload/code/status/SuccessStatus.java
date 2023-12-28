@@ -10,7 +10,7 @@ import umc.jyuny_springprj.apiPayload.code.ReasonDTO;
 @AllArgsConstructor
 // 여기도 내 맘대로 수정 ..
 public enum SuccessStatus implements BaseCode {
-    _OK(HttpStatus.OK,"CODE","MESSAGE");
+    _OK(HttpStatus.OK,"2000","Ok");
 
     private final HttpStatus httpStatus;
     private final String code;

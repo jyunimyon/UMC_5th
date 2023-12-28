@@ -1,6 +1,9 @@
 package umc.jyuny_springprj.domain;
 
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 import umc.jyuny_springprj.domain.base.BaseEntity;
 import umc.jyuny_springprj.domain.enums.Gender;
 import umc.jyuny_springprj.domain.enums.MemberStatus;
@@ -16,6 +19,9 @@ import java.util.List;
 
 @Entity
 @Getter
+@DynamicUpdate
+@DynamicInsert
+// 위 두개의 dynamic 어노테이션들은 insert와 update시 null인 경우는 그냥 쿼리를 보내지 않도록 해준다
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
@@ -50,6 +56,7 @@ public class Member extends BaseEntity {
     // 이메일을 소셜 로그인에서 처리한 후 나머지 정보를 기입 받는 것이 맞는 순서이나, 소셜 로그인 없이 하는 중이므로 nullable로 설정
     private String email;
 
+    @ColumnDefault("0")
     private Integer point;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
