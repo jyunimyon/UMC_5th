@@ -7,7 +7,7 @@ import umc.jyuny_springprj.apiPayload.code.ErrorReasonDTO;
 
 @Getter
 @AllArgsConstructor
-public class GeneralException extends RuntimeException{
+public class GeneralException extends RuntimeException{ // RuntimeException이 발생하면 MasterExceptionHandler가 감지
     private BaseErrorCode code;
     public ErrorReasonDTO getErrorReason(){
         return this.code.getReason();

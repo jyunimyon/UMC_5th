@@ -20,6 +20,7 @@ import java.util.Map;
 
 @Slf4j
 @RestControllerAdvice(annotations={RestController.class})
+// RestControllerAdvice는 @RestController가 붙은 대상에서 Exception이 발생하는 것을 감지하는 역할
 public class ExceptionAdvice extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> validation(ConstraintViolationException e, WebRequest request){
         String errorMessage=e.getConstraintViolations().stream()
