@@ -4,7 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import umc.jyuny_springprj.validation.annotation.ExistMember;
 import umc.jyuny_springprj.validation.annotation.ExistRegion;
+import umc.jyuny_springprj.validation.annotation.ExistStore;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -32,9 +34,9 @@ public class StoreRequestDTO {
         String body;
         @NotNull
         Float score;
-        @NotNull
+        @ExistMember
         Long memberId;
-        @NotNull
+        @ExistStore
         Long storeId;
     }
 }
