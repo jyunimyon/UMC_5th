@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import umc.jyuny_springprj.validation.annotation.ExistRegion;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 public class StoreRequestDTO {
@@ -21,6 +22,19 @@ public class StoreRequestDTO {
         String address;
         @ExistRegion
         Long regionId;
-        // 우와
+    }
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class AddReviewDTO{
+        @NotBlank
+        String body;
+        @NotNull
+        Float score;
+        @NotNull
+        Long memberId;
+        @NotNull
+        Long storeId;
     }
 }

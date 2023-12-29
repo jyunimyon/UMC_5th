@@ -31,6 +31,15 @@ public class Review extends BaseEntity {
     @JoinColumn(name="store_id")
     private Store store;
 
+    // 아마 앞으로 setStore와 setMember를 추가해야할 것이야..
+    public void setStore(Store store) {
+        this.store = store;
+        store.getReviews().add(this);
+    }
+    public void setMember(Member member) {
+        this.member = member;
+        member.getReviewList().add(this);
+    }
 
     @OneToMany(mappedBy = "review", cascade = CascadeType.ALL)
     private List<ReviewImage> reviewImageList=new ArrayList<>();

@@ -16,4 +16,12 @@ public class StoreResponseDTO {
         Long storeId;
         LocalDateTime createdAt;
     }
+    @Builder // 원래 이렇게 dto마다 어노테이션을 달아줘야 하는걸까?
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class AddReviewResultDTO{
+        Long reviewId;
+        LocalDateTime createdAt;
+    }
 }
