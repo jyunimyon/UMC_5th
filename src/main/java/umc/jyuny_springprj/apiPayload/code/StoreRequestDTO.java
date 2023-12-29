@@ -4,9 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import umc.jyuny_springprj.validation.annotation.ExistRegion;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 public class StoreRequestDTO {
@@ -19,7 +19,7 @@ public class StoreRequestDTO {
         String name;
         @Size(min = 5, max = 12)
         String address;
-        @NotNull // 이따가 validation 어노테이션으로 바꾸기
+        @ExistRegion
         Long regionId;
 
     }
