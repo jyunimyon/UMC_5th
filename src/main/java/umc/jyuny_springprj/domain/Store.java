@@ -30,4 +30,10 @@ public class Store extends BaseEntity {
 
     @OneToMany(mappedBy = "store",cascade = CascadeType.ALL)
     private List<Review> reviews=new ArrayList<>();
+    
+    //✅연관관계 매핑✅ setMember 만들기
+    public void setRegion(Region region) {
+        this.region = region;
+        region.getStoreList().add(this);
+    }
 }

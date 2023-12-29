@@ -3,6 +3,8 @@ import lombok.*;
 import umc.jyuny_springprj.domain.base.BaseEntity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -17,4 +19,7 @@ public class Region extends BaseEntity {
 
     @Column(nullable = false, length = 20)
     private String name;
+
+    @OneToMany(mappedBy = "region", cascade = CascadeType.ALL)
+    private List<Store> storeList = new ArrayList<>();
 }
