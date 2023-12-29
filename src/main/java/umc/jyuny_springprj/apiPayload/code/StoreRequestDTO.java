@@ -21,6 +21,6 @@ public class StoreRequestDTO {
         String address;
         @ExistRegion
         Long regionId;
-
+        // 우와
     }
 }
