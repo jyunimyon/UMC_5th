@@ -26,7 +26,8 @@ public class Mission extends BaseEntity {
     private LocalDate deadline;
 
     @Column(nullable = false, columnDefinition = "TEXT")
-    private String condition;
+    // private String condition; ➡️ condition은 예약어라서 사용 금지임 🥲🥲🥲
+    private String status;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "store_id")
