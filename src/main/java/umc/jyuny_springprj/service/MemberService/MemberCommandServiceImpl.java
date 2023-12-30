@@ -5,10 +5,12 @@ import org.springframework.stereotype.Service;
 import umc.jyuny_springprj.apiPayload.code.MemberRequestDTO;
 import umc.jyuny_springprj.apiPayload.code.status.ErrorStatus;
 import umc.jyuny_springprj.apiPayload.exception.handler.FoodCategoryHandler;
+import umc.jyuny_springprj.apiPayload.exception.handler.MissionHandler;
 import umc.jyuny_springprj.converter.MemberConverter;
 import umc.jyuny_springprj.converter.MemberFavorConverter;
 import umc.jyuny_springprj.domain.FoodCategory;
 import umc.jyuny_springprj.domain.Member;
+import umc.jyuny_springprj.domain.Mission;
 import umc.jyuny_springprj.domain.mapping.MemberFavor;
 import umc.jyuny_springprj.domain.mapping.MemberMission;
 import umc.jyuny_springprj.repository.FoodCategoryRepository;
@@ -49,9 +51,23 @@ public class MemberCommandServiceImpl implements MemberCommandService{
     @Override
     @Transactional
     public MemberMission challengeMission(MemberRequestDTO.ChallengeMissionDTO request) {
+        // 일단 service단에서 유효성 검증
+        // ⬇️ 유효성 검증은 송은님 코드 참고
+        Mission mission = missionRepository.findById(request.getMissionId()).get();
+        // request의 missionId를 가진 mission에 대해
+
+        boolean isChallenge = mission.getMemberMissionList().stream() // allMatch 메소드: 스트림의 모든 요소가 주어진 조건을 만족하는지를 확인하는 역할. return true or false
+                // 해당 미션의 memberMission 리스트 중 memberId가 request와 동일한 사람이 있으면 오류
+                .allMatch(memberMission -> memberMission.getMember().getId()!=request.getMemberId());
+        if (!isChallenge) {
+            throw new MissionHandler(ErrorStatus.MISSION_ALREADY_CHALLENGE);
+        }
+
+
         MemberMission newMemberMission=MemberMission.builder().build();
         newMemberMission.setMember(memberRepository.findById(request.getMemberId()).get());
-        newMemberMission.setMission(missionRepository.findById(request.getMissionId()).get());
+        //newMemberMission.setMission(missionRepository.findById(request.getMissionId()).get());
+        newMemberMission.setMission(mission);
         return memberMissionRepository.save(newMemberMission);
     }
 }

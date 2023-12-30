@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import umc.jyuny_springprj.validation.annotation.ExistCategories;
+import umc.jyuny_springprj.validation.annotation.ExistMember;
+import umc.jyuny_springprj.validation.annotation.ExistMission;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -39,8 +41,10 @@ public class MemberRequestDTO {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class ChallengeMissionDTO{
+        @ExistMember
         @NotNull
         Long memberId;
+        @ExistMission
         @NotNull
         Long missionId;
     }
