@@ -10,6 +10,7 @@ import umc.jyuny_springprj.apiPayload.code.MemberRequestDTO;
 import umc.jyuny_springprj.apiPayload.code.MemberResponseDTO;
 import umc.jyuny_springprj.converter.MemberConverter;
 import umc.jyuny_springprj.domain.Member;
+import umc.jyuny_springprj.domain.mapping.MemberMission;
 import umc.jyuny_springprj.service.MemberService.MemberCommandService;
 
 import javax.validation.Valid;
@@ -24,5 +25,10 @@ public class MemberRestController {
     public ApiResponse<MemberResponseDTO.JoinResultDTO> join(@RequestBody @Valid MemberRequestDTO.JoinDTO request){
         Member member = memberCommandService.joinMember(request);
         return ApiResponse.onSuccess(MemberConverter.toJoinResultDTO(member));
+    }
+    @PostMapping("/mission")
+    public ApiResponse<MemberResponseDTO.ChallengeMissionResultDTO> challenge(@RequestBody @Valid MemberRequestDTO.ChallengeMissionDTO request){
+        MemberMission memberMission=memberCommandService.challengeMission(request);
+        return ApiResponse.onSuccess(MemberConverter.toChallengeMissionResultDTO(memberMission));
     }
 }

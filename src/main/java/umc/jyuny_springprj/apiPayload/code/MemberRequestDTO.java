@@ -34,4 +34,14 @@ public class MemberRequestDTO {
         @ExistCategories
         List<Long> favorCategory;
     }
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class ChallengeMissionDTO{
+        @NotNull
+        Long memberId;
+        @NotNull
+        Long missionId;
+    }
 }

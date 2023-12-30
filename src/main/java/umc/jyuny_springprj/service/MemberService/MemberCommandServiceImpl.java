@@ -10,8 +10,11 @@ import umc.jyuny_springprj.converter.MemberFavorConverter;
 import umc.jyuny_springprj.domain.FoodCategory;
 import umc.jyuny_springprj.domain.Member;
 import umc.jyuny_springprj.domain.mapping.MemberFavor;
+import umc.jyuny_springprj.domain.mapping.MemberMission;
 import umc.jyuny_springprj.repository.FoodCategoryRepository;
+import umc.jyuny_springprj.repository.MemberMissionRepository;
 import umc.jyuny_springprj.repository.MemberRepository;
+import umc.jyuny_springprj.repository.MissionRepository;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -22,7 +25,8 @@ import java.util.stream.Collectors;
 public class MemberCommandServiceImpl implements MemberCommandService{
     private final MemberRepository memberRepository;
     private final FoodCategoryRepository foodCategoryRepository;
-
+    private final MissionRepository missionRepository;
+    private final MemberMissionRepository memberMissionRepository;
     @Override
     @Transactional
     public Member joinMember(MemberRequestDTO.JoinDTO request) {
@@ -42,5 +46,12 @@ public class MemberCommandServiceImpl implements MemberCommandService{
         return memberRepository.save(newMember);
     }
 
-
+    @Override
+    @Transactional
+    public MemberMission challengeMission(MemberRequestDTO.ChallengeMissionDTO request) {
+        MemberMission newMemberMission=MemberMission.builder().build();
+        newMemberMission.setMember(memberRepository.findById(request.getMemberId()).get());
+        newMemberMission.setMission(missionRepository.findById(request.getMissionId()).get());
+        return memberMissionRepository.save(newMemberMission);
+    }
 }

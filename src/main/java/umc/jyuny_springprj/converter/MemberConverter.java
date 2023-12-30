@@ -4,6 +4,7 @@ import umc.jyuny_springprj.apiPayload.code.MemberResponseDTO;
 import umc.jyuny_springprj.apiPayload.code.MemberRequestDTO;
 import umc.jyuny_springprj.domain.Member;
 import umc.jyuny_springprj.domain.enums.Gender;
+import umc.jyuny_springprj.domain.mapping.MemberMission;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -39,4 +40,11 @@ public class MemberConverter {
                 .memberFavorList(new ArrayList<>())
                 .build();
     }
+    public static MemberResponseDTO.ChallengeMissionResultDTO toChallengeMissionResultDTO(MemberMission memberMission){
+        return MemberResponseDTO.ChallengeMissionResultDTO.builder()
+                .memberMissionId(memberMission.getId())
+                .createdAt(LocalDateTime.now())
+                .build();
+    }
+
 }
